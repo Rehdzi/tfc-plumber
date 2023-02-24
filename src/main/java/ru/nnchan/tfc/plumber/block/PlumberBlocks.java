@@ -15,11 +15,11 @@ import ru.nnchan.tfc.plumber.item.PlumberItems;
 
 import java.util.function.Supplier;
 
-public class PipeBlock {
+public class PlumberBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Plumber.MOD_ID);
 
-    public static final RegistryObject<Block> COPPER_PIPE_BLOCK = registerBlock("copper_pipe_block",
+    public static final RegistryObject<Block> COPPER_PIPE = registerBlock("copper_pipe",
             () -> new Block(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(4f)
                     .requiresCorrectToolForDrops()), CreativeModeTab.TAB_MISC);
@@ -35,6 +35,7 @@ public class PipeBlock {
         return PlumberItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
     }
 
+    //public BlockState getStateForPlacement(BlockItemUseContext context)
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
     }
