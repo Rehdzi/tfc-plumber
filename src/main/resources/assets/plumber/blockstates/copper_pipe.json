@@ -1,9 +1,8 @@
 {
   "variants": {
-    " ": { "model": "plumber:block/copper_pipe"}
-    //"facing=south": { "model": "plumber:block/copper_pipe", "y": 180},
-    //"facing=west": { "model": "plumber:block/copper_pipe", "y": 270},
-    //"facing=east": { "model": "plumber:block/copper_pipe", "y":  90}
+    "facing=north": { "model": "plumber:block/copper_pipe" },
+    "facing=east": { "model": "plumber:block/copper_pipe", "y": 90 },
+    "facing=south": { "model": "plumber:block/copper_pipe", "y": 180 },
+    "facing=west": { "model": "plumber:block/copper_pipe", "y": 270 }
   }
-
 }
