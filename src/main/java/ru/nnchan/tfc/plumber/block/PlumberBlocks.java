@@ -5,6 +5,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -22,7 +23,7 @@ public class PlumberBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, Plumber.MOD_ID);
 
     public static final RegistryObject<Block> COPPER_PIPE = registerBlock("copper_pipe",
-            () -> new PipeBlock(BlockBehaviour.Properties.copy(Blocks.COPPER_BLOCK).noOcclusion()),
+            () -> new FenceBlock(BlockBehaviour.Properties.copy(Blocks.ACACIA_FENCE).noOcclusion()),
             CreativeModeTab.TAB_MISC);
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
