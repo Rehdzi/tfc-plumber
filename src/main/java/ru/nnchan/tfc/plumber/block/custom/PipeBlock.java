@@ -9,21 +9,21 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import ru.nnchan.tfc.plumber.PlumberTags;
+
+import java.util.Objects;
 
 public class PipeBlock extends CrossCollisionBlock {
     private final VoxelShape[] occlusionByIndex;
     public static final BooleanProperty FILLED = PipeBlock.FILLED;
-    public static final Property PRESSURE = PipeBlock.PRESSURE;
+    public static final IntegerProperty PRESSURE = PipeBlock.PRESSURE;
     //public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState>pBuilder){
@@ -52,7 +52,7 @@ public class PipeBlock extends CrossCollisionBlock {
                 .setValue(WEST, Boolean.valueOf(false))
                 .setValue(WATERLOGGED, Boolean.valueOf(false))
                 .setValue(FILLED, Boolean.valueOf(false))
-                .setValue(PRESSURE, Double.valueOf(0.0f)));
+                .setValue(PRESSURE, Integer.valueOf(0)));
         this.occlusionByIndex = this.makeShapes(2.0F, 1.0F, 16.0F, 6.0F, 15.0F);
     }
 
@@ -64,12 +64,12 @@ public class PipeBlock extends CrossCollisionBlock {
     }*/
 
     @Override
-    public VoxelShape getOcclusionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+    public @NotNull VoxelShape getOcclusionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
         return this.occlusionByIndex[this.getAABBIndex(pState)];
     }
 
     @Override
-    public VoxelShape getVisualShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getVisualShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return this.getShape(pState, pLevel, pPos, pContext);
     }
 
@@ -93,12 +93,12 @@ public class PipeBlock extends CrossCollisionBlock {
         BlockState blockstate1 = blockgetter.getBlockState(blockpos2);
         BlockState blockstate2 = blockgetter.getBlockState(blockpos3);
         BlockState blockstate3 = blockgetter.getBlockState(blockpos4);
-        return super.getStateForPlacement(pContext)
-                .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate, blockstate.isFaceSturdy(blockgetter, blockpos1, Direction.SOUTH), Direction.SOUTH)))
-                .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate1, blockstate1.isFaceSturdy(blockgetter, blockpos2, Direction.WEST), Direction.WEST)))
-                .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate2, blockstate2.isFaceSturdy(blockgetter, blockpos3, Direction.NORTH), Direction.NORTH)))
-                .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate3, blockstate3.isFaceSturdy(blockgetter, blockpos4, Direction.EAST), Direction.EAST)))
-                .setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+        return Objects.requireNonNull(super.getStateForPlacement(pContext))
+                .setValue(NORTH, this.connectsTo(blockstate, blockstate.isFaceSturdy(blockgetter, blockpos1, Direction.SOUTH), Direction.SOUTH))
+                .setValue(EAST, this.connectsTo(blockstate1, blockstate1.isFaceSturdy(blockgetter, blockpos2, Direction.WEST), Direction.WEST))
+                .setValue(SOUTH, this.connectsTo(blockstate2, blockstate2.isFaceSturdy(blockgetter, blockpos3, Direction.NORTH), Direction.NORTH))
+                .setValue(WEST, this.connectsTo(blockstate3, blockstate3.isFaceSturdy(blockgetter, blockpos4, Direction.EAST), Direction.EAST))
+                .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
 
     /*@Override

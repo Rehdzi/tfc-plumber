@@ -5,14 +5,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import ru.nnchan.tfc.plumber.Plumber;
+import ru.nnchan.tfc.plumber.common.blocks.PlumberMaterials;
 import ru.nnchan.tfc.plumber.item.PlumberItems;
 import ru.nnchan.tfc.plumber.block.custom.*;
 
@@ -23,7 +22,7 @@ public class PlumberBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, Plumber.MOD_ID);
 
     public static final RegistryObject<Block> COPPER_PIPE = registerBlock("copper_pipe",
-            () -> new FenceBlock(BlockBehaviour.Properties.copy(Blocks.ACACIA_FENCE).noOcclusion()),
+            () -> new PipeBlock(BlockBehaviour.Properties.of(PlumberMaterials.PIPE)),
             CreativeModeTab.TAB_MISC);
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
