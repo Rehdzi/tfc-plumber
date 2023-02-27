@@ -1,17 +1,12 @@
 {
   "multipart": [
-    {
-      "apply": {
-        "model": "plumber:block/copper_pipe_cross"
-      }
-    },
+
     {
       "when": {
         "north": "true"
       },
       "apply": {
-        "model": "plumber:block/copper_pipe",
-        "uvlock": true
+        "model": "plumber:block/copper_pipe"
       }
     },
     {
@@ -20,8 +15,7 @@
       },
       "apply": {
         "model": "plumber:block/copper_pipe",
-        "y": 90,
-        "uvlock": true
+        "y": 90
       }
     },
     {
@@ -30,8 +24,7 @@
       },
       "apply": {
         "model": "plumber:block/copper_pipe",
-        "y": 180,
-        "uvlock": true
+        "y": 180
       }
     },
     {
@@ -40,8 +33,7 @@
       },
       "apply": {
         "model": "plumber:block/copper_pipe",
-        "y": 270,
-        "uvlock": true
+        "y": 270
       }
     }
   ]

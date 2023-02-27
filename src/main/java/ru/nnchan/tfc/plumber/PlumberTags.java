@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block;
 
 public class PlumberTags {
     public static class Blocks {
-        public static final TagKey<Block> TFC_PIPE = create("tfc_pipe");
+        public static final TagKey<Block> COPPER_PIPE = create("copper_pipe");
 
         private static TagKey<Block> create(String id){
             return TagKey.create(Registry.BLOCK_REGISTRY, Helpers.identifier(id));
