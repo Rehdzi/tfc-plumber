@@ -27,14 +27,24 @@ public class PipeBlock extends CrossCollisionBlock {
     //public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState>pBuilder){
-        pBuilder.add(FILLED);
-        pBuilder.add(PRESSURE);
+        //pBuilder.add(FILLED);
+        //pBuilder.add(PRESSURE);
         pBuilder.add(NORTH, EAST, WEST, SOUTH, WATERLOGGED);
+    }
+
+    @Override
+    public @NotNull VoxelShape getOcclusionShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
+        return this.occlusionByIndex[this.getAABBIndex(pState)];
+    }
+
+    @Override
+    public @NotNull VoxelShape getVisualShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+        return this.getShape(pState, pLevel, pPos, pContext);
     }
 
     public boolean connectsTo(BlockState pState, boolean pBoolean, Direction pDirection) {
         Block block = pState.getBlock();
-        //boolean flag = this.isSameFence(p_53330_);
+        //boolean flag = this.isSameFence(block);
         //boolean flag1 = block instanceof FenceGateBlock && FenceGateBlock.connectsToDirection(pState, pDirection);
         return !isExceptionForConnection(pState) && pBoolean;
     }
@@ -45,14 +55,14 @@ public class PipeBlock extends CrossCollisionBlock {
     */
     public PipeBlock(BlockBehaviour.Properties properties) {
         super(16,16,16,16,8, properties);
-        this.registerDefaultState(this.stateDefinition.any()
-                .setValue(NORTH, Boolean.valueOf(false))
-                .setValue(EAST, Boolean.valueOf(false))
-                .setValue(SOUTH, Boolean.valueOf(false))
-                .setValue(WEST, Boolean.valueOf(false))
-                .setValue(WATERLOGGED, Boolean.valueOf(false))
-                .setValue(FILLED, Boolean.valueOf(false))
-                .setValue(PRESSURE, Integer.valueOf(0)));
+        this.registerDefaultState(getStateDefinition().any()
+                .setValue(NORTH, Boolean.FALSE)
+                .setValue(EAST, Boolean.FALSE)
+                .setValue(SOUTH, Boolean.FALSE)
+                .setValue(WEST, Boolean.FALSE)
+                .setValue(WATERLOGGED, Boolean.FALSE));
+                //.setValue(FILLED, Boolean.FALSE)
+                //.setValue(PRESSURE, 0));
         this.occlusionByIndex = this.makeShapes(2.0F, 1.0F, 16.0F, 6.0F, 15.0F);
     }
 
@@ -63,18 +73,10 @@ public class PipeBlock extends CrossCollisionBlock {
         return SHAPE;
     }*/
 
-    @Override
-    public @NotNull VoxelShape getOcclusionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return this.occlusionByIndex[this.getAABBIndex(pState)];
-    }
+
 
     @Override
-    public @NotNull VoxelShape getVisualShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return this.getShape(pState, pLevel, pPos, pContext);
-    }
-
-    @Override
-    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+    public boolean isPathfindable(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull PathComputationType pType) {
         return false;
     }
 
@@ -100,21 +102,5 @@ public class PipeBlock extends CrossCollisionBlock {
                 .setValue(WEST, this.connectsTo(blockstate3, blockstate3.isFaceSturdy(blockgetter, blockpos4, Direction.EAST), Direction.EAST))
                 .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
-
-    /*@Override
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
-    }
-
-    @Override
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
-    }*/
-
 
 }

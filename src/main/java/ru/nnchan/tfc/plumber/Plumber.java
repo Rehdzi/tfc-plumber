@@ -21,7 +21,7 @@ public class Plumber
 
     public Plumber()
     {
-        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         PlumberItems.register(eventBus);
         PlumberBlocks.register(eventBus);
